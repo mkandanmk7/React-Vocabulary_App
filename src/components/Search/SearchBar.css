@@ -1,0 +1,32 @@
+.search_container {
+  display: "flex";
+  align-items: center;
+}
+.word {
+  /* display: flex; */
+  font-size: 1.5rem;
+  padding: 10px;
+  text-align: center;
+}
+.input_container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  justify-content: center;
+  width: 400px;
+  height: 30px;
+}
+.input_container > input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 15px 10px;
+  margin-right: 10px;
+  background: #cdd;
+}
+.search_icon {
+  height: 50px;
+  /* background: #000; */
+  margin-left: -40px;
+}
