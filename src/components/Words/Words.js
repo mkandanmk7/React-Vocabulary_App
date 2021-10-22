@@ -3,24 +3,23 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function Words() {
+  const [meaning, setMeaning] = useState([]); // initially empty
+  const [word, setWord] = useState("");
+  // const [categogy]
 
-    const [meaning,setMeaning]=useState([]) // initially empty
-    const [word,setWord]=useState("");
-    const [categogy]
-
-    // getting all the words using get Method
-    const  getWords= async()=>{
-        try{
-
-            const data=await axios.get()
-        }
-        catch
+  // getting all the words using get Method
+  const getWords = async () => {
+    try {
+      const data = await axios.get();
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    //initial mount 
-    useEffect(()=>{
-
-    },[])
+  //initial mount
+  useEffect(() => {
+    getWords();
+  }, []);
 
   return (
     <div className="words_container">
