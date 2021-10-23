@@ -23,7 +23,8 @@ function Words() {
 
   return (
     <div className="words_container">
-      <Typography
+      <h2>Words</h2>
+      {/* <Typography
         variant="h5"
         color="primary"
         align="center"
@@ -31,7 +32,7 @@ function Words() {
         gutterBottom="true"
       >
         Welcome to words
-      </Typography>
+      </Typography> */}
     </div>
   );
 }

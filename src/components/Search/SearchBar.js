@@ -1,75 +1,50 @@
-import { Search } from "@material-ui/icons";
-import { styled, alpha, InputBase, AppBar } from "@material-ui/core";
-import { useState } from "react";
+import { ArrowDropDown, Language, Search } from "@material-ui/icons";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./SearchBar.css";
 
 function SearchBar() {
-  const [word, setWord] = useState("Enter word: ");
+  const [word, setWord] = useState("");
 
-  const SearchStyle = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  }));
+  // const language = "en-us";
+  // const url=`https://od-api.oxforddictionaries.com/api/v2/entries/${language}/${word}`
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
+  const getWords = async () => {
+    // const app_id = "9ae9e5dc";
+    // const app_key = "b3236e7deff3fc3bab5acaad64fcd6ba";
+    const { data } = await axios.get(
+      "https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/mobile",
+      {
+        headers: {
+          app_id: "9ae9e5dc",
+          app_key: "b3236e7deff3fc3bab5acaad64fcd6ba",
+        },
+      }
+    );
+    // https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/
+    // const res = data.json();
 
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "20ch",
-      },
-    },
-  }));
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getWords();
+  }, []);
 
   return (
-    <div className="search_container">
-      <div className="input_container">
-        <input
-          type="search"
-          placeholder="Enter the word to search"
-          onChange={(event) => setWord(event.target.value)}
-        />
-        <Search className="search_icon" color="primary" />
-        {/* <div>
-          <h3 className="word">{word}</h3>
-        </div> */}
-      </div>
-      <AppBar position="static">
-        <SearchStyle>
-          <SearchIconWrapper>
-            <Search />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
+    <div className="header">
+      <div className="header_center">
+        <div className="header_search">
+          <Search />
+          <input
+            type="text"
+            value={word}
+            placeholder="Enter a word..."
+            onChange={(e) => setWord(e.target.value)}
           />
-        </SearchStyle>
-      </AppBar>
+          <ArrowDropDown />
+        </div>
+      </div>
     </div>
   );
 }

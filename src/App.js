@@ -5,7 +5,6 @@ import Words from "./components/Words/Words";
 function App() {
   return (
     <div className="container">
-      <h2>Home page</h2>
       <SearchBar />
 
       <Words />
