@@ -7,7 +7,7 @@ function App() {
     <div className="container">
       <SearchBar />
 
-      <Words />
+      {/* <Words /> */}
     </div>
   );
 }
