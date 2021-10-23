@@ -1,4 +1,7 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import "./SearchBar.css";
+
 import {
   Backdrop,
   Box,
@@ -10,18 +13,23 @@ import {
   Typography,
 } from "@material-ui/core";
 import { AddCircle, ArrowDropDown, Search } from "@material-ui/icons";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import "./SearchBar.css";
 
 function SearchBar() {
   const [word, setWord] = useState("");
+  const [enteredWord, setEnteredWord] = useState("");
   const [defintion, setDefintion] = useState("");
+  // const [example, setExample] = useState("");
 
   //modal states
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  //contentModal
+  const [content, setContent] = useState(false);
+  const [verb, setVerb] = useState("");
+  const [example, setExample] = useState("");
+  const [origin, setOrigin] = useState("");
 
   //styles for modal
   const style = {
@@ -38,10 +46,8 @@ function SearchBar() {
   };
 
   const getWords = async () => {
-    // const app_id = "9ae9e5dc";
-    // const app_key = "b3236e7deff3fc3bab5acaad64fcd6ba";
     const { data } = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/${word}`,
+      `https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/piecemeal`,
       {
         headers: {
           app_id: "9ae9e5dc",
@@ -49,20 +55,26 @@ function SearchBar() {
         },
       }
     );
-    // https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/
-    // const res = data.json();
+    console.log(data);
+    setEnteredWord(data.id);
+    setOrigin(data.results[0].lexicalEntries[0].entries[0].etymologies[0]);
+    // setVerb(data.results[0].lexicalEntries[0].phrasalVerbs[0].text);
+    setExample(
+      data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text
+    );
+
     let define =
       data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0];
-
     setDefintion(define);
+
     console.log(
       data.results[0].lexicalEntries[0].entries[0].senses[0].definitions[0]
     );
-    // console.log()
   };
 
   useEffect(() => {
     getWords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -77,15 +89,24 @@ function SearchBar() {
                 value={word}
                 placeholder="Enter a word..."
                 onChange={(e) => setWord(e.target.value)}
-                onSubmit={() => getWords()}
+                // onSubmit={() => getWords()}
               />
 
-              <Search onClick={() => setWord(word)} />
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<Search />}
+                onSubmit={() => setWord(word)}
+              ></Button>
             </div>
           </div>
         </div>
-        <div className="definitions">
-          <h2>Defintions : {defintion}</h2>
+        <div className="definitions" onClick={() => setContent(true)}>
+          <h3 className="word_heading">Words List</h3>
+          <h2>{enteredWord}</h2>
+          <h3>
+            <b>(adjective)</b> <span> {defintion}</span>
+          </h3>
         </div>
         <AddCircle
           style={{
@@ -97,6 +118,68 @@ function SearchBar() {
           }}
           onClick={handleOpen}
         />
+
+        {/* content modal */}
+        <div>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={content}
+            onClose={() => setContent(false)}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={content}>
+              <Box className="content_modal">
+                <Typography variant="h2" className="content_modal_heading">
+                  {enteredWord}
+                </Typography>
+                <Typography variant="h5" className="content_adjective">
+                  <span>
+                    <b>adjective</b>
+                  </span>{" "}
+                  <br /> {origin}
+                </Typography>
+
+                <Typography
+                  id="transition-modal-title"
+                  variant="h3"
+                  component="h2"
+                >
+                  {verb}
+                </Typography>
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="h2"
+                >
+                  {example}
+                </Typography>
+                <TextField
+                  id="standard-basic"
+                  label="New Word"
+                  variant="standard"
+                />
+                <div className="buttons">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => setContent(false)}
+                  >
+                    cancel
+                  </Button>
+                  <Button variant="contained" color="primary">
+                    Add
+                  </Button>
+                </div>
+              </Box>
+            </Fade>
+          </Modal>
+        </div>
+
         <div>
           <Modal
             aria-labelledby="transition-modal-title"
@@ -124,10 +207,14 @@ function SearchBar() {
                   variant="standard"
                 />
                 <div className="buttons">
-                  <Button variant="contained" color="success">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleClose}
+                  >
                     cancel
                   </Button>
-                  <Button color="success" variant="contained">
+                  <Button variant="contained" color="primary">
                     Add
                   </Button>
                 </div>
