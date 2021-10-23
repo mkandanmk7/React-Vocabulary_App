@@ -137,44 +137,31 @@ function SearchBar() {
                 <Typography variant="h2" className="content_modal_heading">
                   {enteredWord}
                 </Typography>
-                <Typography variant="h5" className="content_adjective">
-                  <span>
-                    <b>adjective</b>
-                  </span>{" "}
-                  <br /> {origin}
+                <Typography
+                  variant="subtitle1"
+                  component="h2"
+                  className="content_adjective"
+                >
+                  <span>adjective</span>
+                  Origin: {origin}
                 </Typography>
 
                 <Typography
                   id="transition-modal-title"
-                  variant="h3"
+                  variant="h4"
                   component="h2"
+                  className="content_definition"
                 >
-                  {verb}
+                  {defintion}
                 </Typography>
                 <Typography
                   id="transition-modal-title"
                   variant="h6"
                   component="h2"
+                  className="content_example"
                 >
-                  {example}
+                  <li>{example}</li>
                 </Typography>
-                <TextField
-                  id="standard-basic"
-                  label="New Word"
-                  variant="standard"
-                />
-                <div className="buttons">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => setContent(false)}
-                  >
-                    cancel
-                  </Button>
-                  <Button variant="contained" color="primary">
-                    Add
-                  </Button>
-                </div>
               </Box>
             </Fade>
           </Modal>

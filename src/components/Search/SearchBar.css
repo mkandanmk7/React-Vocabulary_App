@@ -67,13 +67,35 @@
 }
 .content_modal {
   position: absolute;
-  top: 13%;
+  top: 0;
   left: 0;
   padding: 15px;
-  background-color: #e7e7e7;
+  background-color: #fff;
   width: 100vw;
   height: 100vh;
+  border: none;
 }
 .content_modal_heading {
   border-bottom: 2px solid #e7e7e7;
+}
+.content_adjective {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.content_adjective > span {
+  font-weight: 400px;
+  font-size: 1rem;
+}
+.content_definition {
+  margin: 5px 0px;
+}
+.content_example {
+  border-bottom: 2px solid #e7e7e7;
+}
+.content_example > li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-left: 58px;
+  word-wrap: break-word;
+  margin-bottom: 10px;
 }
