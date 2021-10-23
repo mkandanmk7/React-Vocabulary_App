@@ -12,7 +12,12 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { AddCircle, ArrowDropDown, Search } from "@material-ui/icons";
+import {
+  AddCircle,
+  ArrowDropDown,
+  Search,
+  CancelSharp,
+} from "@material-ui/icons";
 
 function SearchBar() {
   const [word, setWord] = useState("");
@@ -27,7 +32,11 @@ function SearchBar() {
 
   //contentModal
   const [content, setContent] = useState(false);
-  const [verb, setVerb] = useState("");
+  const [category, setCategory] = useState("");
+  const [advCategory, setAdvCategory] = useState("");
+  const [adverb, setAdVerb] = useState("");
+  const [advExample1, setAdvExample1] = useState("");
+  const [advExample2, setAdvExample2] = useState("");
   const [example, setExample] = useState("");
   const [origin, setOrigin] = useState("");
 
@@ -57,10 +66,23 @@ function SearchBar() {
     );
     console.log(data);
     setEnteredWord(data.id);
+    setCategory(data.results[0].lexicalEntries[0].lexicalCategory.id);
     setOrigin(data.results[0].lexicalEntries[0].entries[0].etymologies[0]);
     // setVerb(data.results[0].lexicalEntries[0].phrasalVerbs[0].text);
     setExample(
       data.results[0].lexicalEntries[0].entries[0].senses[0].examples[0].text
+    );
+
+    //adverb
+    setAdVerb(
+      data.results[0].lexicalEntries[1].entries[0].senses[0].definitions[0]
+    );
+    setAdvCategory(data.results[0].lexicalEntries[1].lexicalCategory.id);
+    setAdvExample1(
+      data.results[0].lexicalEntries[1].entries[0].senses[0].examples[0].text
+    );
+    setAdvExample2(
+      data.results[0].lexicalEntries[1].entries[0].senses[0].examples[1].text
     );
 
     let define =
@@ -105,7 +127,7 @@ function SearchBar() {
           <h3 className="word_heading">Words List</h3>
           <h2>{enteredWord}</h2>
           <h3>
-            <b>(adjective)</b> <span> {defintion}</span>
+            <b>({category})</b> <span> {defintion}</span>
           </h3>
         </div>
         <AddCircle
@@ -136,14 +158,23 @@ function SearchBar() {
               <Box className="content_modal">
                 <Typography variant="h2" className="content_modal_heading">
                   {enteredWord}
+                  <CancelSharp
+                    className="modal_cancel"
+                    color="disabled"
+                    onClick={() => setContent(false)}
+                    style={{
+                      fontSize: "3rem",
+                    }}
+                  />
                 </Typography>
+
                 <Typography
                   variant="subtitle1"
                   component="h2"
                   className="content_adjective"
                 >
-                  <span>adjective</span>
-                  Origin: {origin}
+                  <span className="content_adj">{category}</span>
+                  <span className="content_origin"> Origin: {origin}</span>
                 </Typography>
 
                 <Typography
@@ -161,6 +192,31 @@ function SearchBar() {
                   className="content_example"
                 >
                   <li>{example}</li>
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  component="h2"
+                  className="content_adjective"
+                >
+                  <span className="content_adj">{advCategory}</span>
+                  <span className="content_origin"> {adverb}</span>
+                </Typography>
+
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="h2"
+                  className="content_example"
+                >
+                  <li>{advExample1}</li>
+                </Typography>
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="h2"
+                  className="content_example"
+                >
+                  <li>{advExample2}</li>
                 </Typography>
               </Box>
             </Fade>
