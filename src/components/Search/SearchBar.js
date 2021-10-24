@@ -20,10 +20,9 @@ import {
 } from "@material-ui/icons";
 
 function SearchBar() {
-  const [word, setWord] = useState("");
+  const [word, setWord] = useState([]);
   const [enteredWord, setEnteredWord] = useState("");
   const [defintion, setDefintion] = useState("");
-  // const [example, setExample] = useState("");
 
   //modal states
   const [open, setOpen] = useState(false);
@@ -39,6 +38,10 @@ function SearchBar() {
   const [advExample2, setAdvExample2] = useState("");
   const [example, setExample] = useState("");
   const [origin, setOrigin] = useState("");
+
+  //add words
+
+  const handleWords = async () => {};
 
   //styles for modal
   const style = {
@@ -56,7 +59,7 @@ function SearchBar() {
 
   const getWords = async () => {
     const { data } = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/piecemeal`,
+      `https://cors-anywhere.herokuapp.com/https://od-api.oxforddictionaries.com/api/v2/entries/en-us/help`,
       {
         headers: {
           app_id: "9ae9e5dc",
@@ -101,7 +104,7 @@ function SearchBar() {
 
   return (
     <>
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <div className="header">
           <div className="header_center">
             <div className="header_search">
@@ -257,7 +260,11 @@ function SearchBar() {
                   >
                     cancel
                   </Button>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleWords}
+                  >
                     Add
                   </Button>
                 </div>
